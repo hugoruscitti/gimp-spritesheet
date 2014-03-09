@@ -3,13 +3,13 @@
 from gimpfu import *
 
 def integrate(image, drawable, frames):
-    new_width = image.width / frames
+    new_width = int(image.width / frames)
     image.undo_group_start()
-    image.merge_visible_layers(1)
+    image.merge_visible_layers(0)
     layers = []
 
     # Genera un layer por cada cuadro de animacion
-    for frame in range(0, frames):
+    for frame in range(0, int(frames)):
         new_layer = image.layers[0].copy()
         layers.append(new_layer)
 
@@ -23,8 +23,8 @@ def integrate(image, drawable, frames):
     for (pos, layer) in enumerate(layers):
         image.add_layer(layer)
         delta_x = (pos - (frames-1)) * new_width
-        layer.resize(new_width, image.height, delta_x, 0)
-        layer.translate(delta_x, 0)
+        layer.resize(int(new_width), int(image.height), int(delta_x), 0)
+        layer.translate(int(delta_x), 0)
 
     image.resize(new_width, image.height, 0, 0)
     image.undo_group_end()
